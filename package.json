@@ -2,10 +2,10 @@
   "name": "ui-utils",
   "module": "index.ts",
   "type": "module",
-  "bin": "cli",
+  "bin": "bin",
   "scripts": {
     "start": "bun run index.ts",
-    "compile": "bun build index.ts --compile --outfile cli"
+    "compile": "bun build index.ts --compile --outfile bin"
   },
   "devDependencies": {
     "bun-types": "^0.6.9"
