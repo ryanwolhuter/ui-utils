@@ -18,15 +18,20 @@ export const component = command({
       short: "m",
       description: "Use css-modules boilerplate",
     }),
+    props: flag({
+      long: "props",
+      short: "p",
+      description: "Add `Props` type to component",
+    }),
     children: flag({
       long: "children",
       short: "c",
-      description: "Add children prop to component",
+      description: "Add `Props` type with children key to component",
     }),
     componentsDirPath: option({
       type: optional(string),
       long: "components-dir-path",
-      short: "p",
+      short: "d",
       description: "Path to components directory, defaults to `src/components`",
     }),
     name: positional({
@@ -39,6 +44,7 @@ export const component = command({
     name,
     styledComponent,
     cssModule,
+    props,
     children,
     componentsDirPath = defaultComponentsDirPath,
   }) => {
@@ -79,7 +85,7 @@ export const component = command({
     } = makeComponentFilePaths(componentsDirPath, name);
 
     const exportCode = exportTemplate(name);
-    const componentCode = componentTemplate({ name, type, children });
+    const componentCode = componentTemplate({ name, type, props, children });
     const styleCode = cssModule ? styleTemplate : undefined;
 
     try {

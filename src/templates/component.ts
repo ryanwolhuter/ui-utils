@@ -1,13 +1,15 @@
 function wrapper({
   name,
   type,
+  props,
   children,
 }: {
   name: string;
   type: string;
+  props: boolean;
   children: boolean;
-  }) {
-  const content = children ? "{children}" : name;
+}) {
+  const content = children ? "{children}" : props ? "{example}" : name;
   if (type === "styled-component") {
     return `<Wrapper>${content}</Wrapper>`;
   }
@@ -20,19 +22,32 @@ function wrapper({
 export function componentTemplate({
   name,
   type,
+  props,
   children,
 }: {
   name: string;
   type: "styled-component" | "css-module" | "none";
+  props: boolean;
   children: boolean;
-  }) {
-  const childrenProps = children ? `type Props = {
+}) {
+  const propsTypeWithExample = props
+    ? `type Props = {
+  example: string;
+}
+`
+    : "";
+  const propsTypeWithChildren = children
+    ? `type Props = {
   children: React.ReactNode;
 }
-` : ""
-const childrenArgs = children ? `{ children }: Props`: ""
-  const common = `${childrenProps}export function ${name}(${childrenArgs}) {
-  return ${wrapper({ name, type, children })};
+`
+    : "";
+  const propsType = children ? propsTypeWithChildren : propsTypeWithExample;
+  const propsArgWithExample = props ? `{ example }: Props` : "";
+  const propsArgWithChildren = children ? `{ children }: Props` : "";
+  const propsArg = children ? propsArgWithChildren : propsArgWithExample;
+  const common = `${propsType}export function ${name}(${propsArg}) {
+  return ${wrapper({ name, type, props, children })};
 }
 `;
   if (type === "styled-component") {
