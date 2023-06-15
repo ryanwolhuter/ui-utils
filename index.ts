@@ -1,4 +1,12 @@
-import chalk from "chalk";
+import {
+  componentTemplate,
+  exportTemplate,
+  storyTemplate,
+  styleTemplate,
+} from "@/templates";
+import { handleError, logSuccess } from "@/utils";
+import { makeComponentFilePaths } from "@/utils/filepaths";
+import { write } from "bun";
 import {
   command,
   flag,
@@ -9,24 +17,10 @@ import {
   string,
   subcommands,
 } from "cmd-ts";
-import { write } from "bun"
 import { appendFileSync, existsSync, mkdirSync } from "node:fs";
-import { componentTemplate } from "./src/componentTemplate";
-import { makeComponentFilePaths } from "./src/filepaths";
-import { indexTemplate } from "./src/indexTemplate";
-import { storyTemplate } from "./src/storyTemplate";
-import { styleTemplate } from "./src/styleTemplate";
 
 const defaultComponentsDirPath = "src/components";
 const defaultStoriesDirPath = "src/stories";
-
-const logError = (e: string) => console.log(chalk.red(e));
-const logSuccess = (e: string) => console.log(chalk.green(e));
-
-function handleError(e: string) {
-  logError(`Error: ${e}`);
-  process.exit(1);
-}
 
 const component = command({
   name: "component",
@@ -101,15 +95,15 @@ const component = command({
       stylePath,
     } = makeComponentFilePaths(componentsDirPath, name);
 
-    const indexCode = indexTemplate(name);
+    const exportCode = exportTemplate(name);
     const componentCode = componentTemplate({ name, type, children });
     const styleCode = cssModule ? styleTemplate : undefined;
 
     try {
       mkdirSync(componentDirPath);
       write(componentPath, componentCode);
-      write(indexPath, indexCode);
-      appendFileSync(componentsIndexPath, indexCode);
+      write(indexPath, exportCode);
+      appendFileSync(componentsIndexPath, exportCode);
 
       if (styleCode) {
         write(stylePath, styleCode);
