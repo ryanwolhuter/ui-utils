@@ -9,7 +9,8 @@ import {
   string,
   subcommands,
 } from "cmd-ts";
-import { appendFileSync, existsSync, mkdirSync, writeFileSync } from "fs";
+import { write } from "bun"
+import { appendFileSync, existsSync, mkdirSync } from "node:fs";
 import { componentTemplate } from "./src/componentTemplate";
 import { makeComponentFilePaths } from "./src/filepaths";
 import { indexTemplate } from "./src/indexTemplate";
@@ -106,12 +107,12 @@ const component = command({
 
     try {
       mkdirSync(componentDirPath);
-      writeFileSync(componentPath, componentCode);
-      writeFileSync(indexPath, indexCode);
+      write(componentPath, componentCode);
+      write(indexPath, indexCode);
       appendFileSync(componentsIndexPath, indexCode);
 
       if (styleCode) {
-        writeFileSync(stylePath, styleCode);
+        write(stylePath, styleCode);
       }
 
       logSuccess(`Created component files for ${name}\n`);
@@ -199,7 +200,7 @@ const story = command({
     const writePath = `${storiesDirPath}/${name}.stories.tsx`;
 
     try {
-      writeFileSync(writePath, storyCode);
+      write(writePath, storyCode);
       logSuccess(`Created story file for ${name}`);
       logSuccess(`Story path: ${writePath}`);
     } catch (e) {
@@ -213,7 +214,7 @@ const story = command({
 });
 
 const app = subcommands({
-  name: "ui-tils",
+  name: "ui-utils",
   cmds: { component, story },
 });
 
