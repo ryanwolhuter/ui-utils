@@ -51,8 +51,15 @@ export const component = command({
     if (name[0].toUpperCase() !== name[0]) {
       handleError("Name of React component must be capitalized");
     }
+
     if (styledComponent && cssModule) {
       handleError("Cannot use both styled-component and css-module");
+    }
+
+    if (props && children) {
+      handleError(
+        "Specifying `children` overrides `props` — they both add a `Props` type to the component, but `children` adds a `children` key to the `Props` type"
+      );
     }
 
     if (
