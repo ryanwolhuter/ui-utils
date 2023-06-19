@@ -65,4 +65,4 @@ Feel free to open issues or PRs if you find any problems or have suggestions for
 
 ## License
 
-This project is licensed under the terms of the MIT license.
+This project is licensed under the terms of the ISC license.

@@ -1,5 +1,7 @@
 {
-  "name": "ui-utils",
+  "name": "@ryanwolhuter/ui-utils",
+  "version": "0.0.1",
+  "description": "A simple CLI for generating React components and Storybook stories",
   "module": "index.ts",
   "type": "module",
   "bin": "bin",
@@ -7,6 +9,16 @@
     "start": "bun run index.ts",
     "compile": "bun build index.ts --compile --outfile bin"
   },
+  "keywords": [
+    "cli",
+    "npmtool",
+    "react",
+    "storybook"
+  ],
+  "author": "Ryan Wolhuter",
+  "repository": "https://github.com/ryanwolhuter/ui-utils",
+  "homepage": "https://github.com/ryanwolhuter/ui-utils#readme",
+  "license": "ISC",
   "devDependencies": {
     "bun-types": "^0.6.9"
   },
